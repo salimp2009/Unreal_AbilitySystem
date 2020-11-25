@@ -37,6 +37,7 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComp;
 }
 
+
 void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire)
 {
 	if (AbilitySystemComp)
