@@ -6,9 +6,9 @@
 #include "AttributeSet.h"
 #include "AttributeSetBase.generated.h"
 
-/**
- * 
- */
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams( DelegateName, Param1Type, Param1Name, Param2Type, Param2Name )
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangeDelegate, float, Health, float, MaxHealth);
+
 UCLASS()
 class ABILITYSYSTEM_API UAttributeSetBase : public UAttributeSet
 {
@@ -20,6 +20,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
 	FGameplayAttributeData Health;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
+	FGameplayAttributeData MaxHealth;
+
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+	FOnHealthChangeDelegate OnHealthChange;
 
 };
