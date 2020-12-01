@@ -9,9 +9,12 @@ ACharacterBase::ACharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComp");
 
 	AttributeSetBaseComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBaseComp");
+
+	bIsDead = false;
 }
 
 // Called when the game starts or when spawned
@@ -20,7 +23,6 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 
 	AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &ACharacterBase::OnHealthChanged);
-	
 }
 
 // Called every frame
@@ -41,7 +43,6 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComp;
 }
 
-
 void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire)
 {
 	if (AbilitySystemComp)
@@ -57,6 +58,11 @@ void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcqui
 
 void ACharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
+	if (Health <= 0.0f && !bIsDead)
+	{
+		bIsDead = true;
+		BP_Die();
+	}
 	BP_OnHealthChanged(Health, MaxHealth);
 }
 
