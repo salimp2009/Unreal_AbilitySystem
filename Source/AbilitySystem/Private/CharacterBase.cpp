@@ -3,6 +3,10 @@
 
 #include "CharacterBase.h"
 #include "AttributeSetBase.h"
+#include "GameFramework/PlayerController.h"
+#include "AIController.h"
+#include "BrainComponent.h"
+
 
 // Sets default values
 ACharacterBase::ACharacterBase()
@@ -15,6 +19,8 @@ ACharacterBase::ACharacterBase()
 	AttributeSetBaseComp = CreateDefaultSubobject<UAttributeSetBase>("AttributeSetBaseComp");
 
 	bIsDead = false;
+
+	TeamID = 255;
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +29,7 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 
 	AttributeSetBaseComp->OnHealthChange.AddDynamic(this, &ACharacterBase::OnHealthChanged);
+	AutoDetermineTeamIDbyControllerType();
 }
 
 // Called every frame
@@ -43,6 +50,8 @@ UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComp;
 }
 
+
+
 void ACharacterBase::AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire)
 {
 	if (AbilitySystemComp)
@@ -61,8 +70,41 @@ void ACharacterBase::OnHealthChanged(float Health, float MaxHealth)
 	if (Health <= 0.0f && !bIsDead)
 	{
 		bIsDead = true;
+		Dead();
 		BP_Die();
 	}
 	BP_OnHealthChanged(Health, MaxHealth);
 }
 
+bool ACharacterBase::IsOtherHostile(ACharacterBase* Other)
+{
+	return TeamID != Other->GetTeamID();
+}
+
+uint8 ACharacterBase::GetTeamID() const
+{
+	return TeamID;
+}
+
+void ACharacterBase::AutoDetermineTeamIDbyControllerType()
+{
+	if (GetController() && GetController()->IsPlayerController())
+	{
+		TeamID = 0;   // TeamID is PlayerController; TODO; Use Enums or unsigned float since 255 limits the player number
+	}
+}
+
+void ACharacterBase::Dead()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->DisableInput(PC);
+	}
+
+	AAIController* AIC= Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
+}
