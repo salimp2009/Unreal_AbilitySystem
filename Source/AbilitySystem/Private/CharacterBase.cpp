@@ -32,6 +32,7 @@ void ACharacterBase::BeginPlay()
 	AttributeSetBaseComp->OnManaChange.AddDynamic(this, &ACharacterBase::OnManaChanged);
 	AttributeSetBaseComp->OnStrengthChange.AddDynamic(this, &ACharacterBase::OnStrengthChanged);
 	AutoDetermineTeamIDbyControllerType();
+	AddGameplayTag(FullHealthTag);
 }
 
 // Called every frame
@@ -121,4 +122,15 @@ void ACharacterBase::Dead()
 	{
 		AIC->GetBrainComponent()->StopLogic("Dead");
 	}
+}
+
+void ACharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
+{
+	GetAbilitySystemComponent()->AddLooseGameplayTag(TagToAdd);
+	GetAbilitySystemComponent()->SetTagMapCount(TagToAdd, 1);
+}
+
+void ACharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
+{
+	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
 }

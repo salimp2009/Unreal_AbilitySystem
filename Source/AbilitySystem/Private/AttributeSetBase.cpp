@@ -4,11 +4,12 @@
 #include "AttributeSetBase.h"
 #include "GameplayEffectExtension.h"
 #include "GameplayEffectTypes.h"
+#include "CharacterBase.h"
 
 
 UAttributeSetBase::UAttributeSetBase()
 	: Health(200.0f), MaxHealth(200.0f), 
-	Mana(100.0f), MaxMana(150.0f), 
+	Mana(100.0f), MaxMana(100.0f), 
 	Strength(250.0f), MaxStrength(250.0f)
 {
 
@@ -21,6 +22,23 @@ void UAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		Health.SetCurrentValue(FMath::Clamp(Health.GetCurrentValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		Health.SetBaseValue(FMath::Clamp(Health.GetBaseValue(), 0.0f, MaxHealth.GetCurrentValue()));
 		OnHealthChange.Broadcast(Health.GetCurrentValue(), MaxHealth.GetCurrentValue());
+		
+		ACharacterBase* CharacterOwner = Cast<ACharacterBase>(GetOwningActor());
+
+		if (Health.GetCurrentValue() == MaxHealth.GetCurrentValue())
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->AddGameplayTag(CharacterOwner->FullHealthTag);
+			}
+		}
+		else
+		{
+			if (CharacterOwner)
+			{
+				CharacterOwner->RemoveGameplayTag(CharacterOwner->FullHealthTag);
+			}	
+		}
 	}
 
 	if (Data.EvaluatedData.Attribute.GetUProperty() == FindFieldChecked<UProperty>(UAttributeSetBase::StaticClass(), GET_MEMBER_NAME_CHECKED(UAttributeSetBase, Mana)))
