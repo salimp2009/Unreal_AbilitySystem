@@ -109,20 +109,6 @@ void ACharacterBase::AutoDetermineTeamIDbyControllerType()
 	}
 }
 
-void ACharacterBase::Dead()
-{
-	APlayerController* PC = Cast<APlayerController>(GetController());
-	if (PC)
-	{
-		PC->DisableInput(PC);
-	}
-
-	AAIController* AIC= Cast<AAIController>(GetController());
-	if (AIC)
-	{
-		AIC->GetBrainComponent()->StopLogic("Dead");
-	}
-}
 
 void ACharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
 {
@@ -133,4 +119,51 @@ void ACharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
 void ACharacterBase::RemoveGameplayTag(FGameplayTag& TagToRemove)
 {
 	GetAbilitySystemComponent()->RemoveLooseGameplayTag(TagToRemove);
+}
+
+void ACharacterBase::Dead()
+{
+	DisableInputControl();
+}
+
+
+void ACharacterBase::DisableInputControl()
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (PC)
+	{
+		PC->DisableInput(PC);
+	}
+
+	AAIController* AIC = Cast<AAIController>(GetController());
+	if (AIC)
+	{
+		AIC->GetBrainComponent()->StopLogic("Dead");
+	}
+}
+
+
+void ACharacterBase::EnableInputControl()
+{
+	if (!bIsDead)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (PC)
+		{
+			PC->EnableInput(PC);
+		}
+
+		AAIController* AIC = Cast<AAIController>(GetController());
+		if (AIC)
+		{
+			AIC->GetBrainComponent()->RestartLogic();
+		}
+	}
+}
+
+
+void ACharacterBase::HitStun(float StunDuration)
+{
+	DisableInputControl();
+	GetWorldTimerManager().SetTimer(StunTimeHandle, this, &ACharacterBase::EnableInputControl, StunDuration, false);  // false is not to Loop
 }
