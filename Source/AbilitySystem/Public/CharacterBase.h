@@ -8,7 +8,7 @@
 #include "CharacterBase.generated.h"
 
 class UAttributeSetBase;
-
+class UGameplayAbilityBase;
 UCLASS()
 class ABILITYSYSTEM_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
@@ -39,6 +39,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void AcquireAbility(TSubclassOf<UGameplayAbility> AbilityToAcquire);
+
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void AcquireAbilities(TArray<TSubclassOf<UGameplayAbility>> AbilityToAcquire);
 
 	UFUNCTION()
 	void OnHealthChanged(float Health, float MaxHealth);
@@ -87,5 +90,7 @@ protected:
 	void DisableInputControl();
 	void EnableInputControl();
 	FTimerHandle StunTimeHandle;
+
+	void AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityToAdd);
 
 };
