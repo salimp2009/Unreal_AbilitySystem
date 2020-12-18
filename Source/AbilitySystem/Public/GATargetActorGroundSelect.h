@@ -16,6 +16,8 @@ class ABILITYSYSTEM_API AGATargetActorGroundSelect : public AGameplayAbilityTarg
 
 public:
 
+	AGATargetActorGroundSelect();
+
 	/** Initialize and begin targeting logic  */
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 
@@ -33,8 +35,7 @@ public:
 	//UPROPERTY()
 	//class UGameplayAbility* OwningAbility;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GroundSelect")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ExposeOnSpawn=true), Category="GroundSelect")
 	float Radius;
 
-	
 };

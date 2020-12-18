@@ -9,6 +9,13 @@
 #include "DrawDebugHelpers.h"
 
 
+AGATargetActorGroundSelect::AGATargetActorGroundSelect()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+
+
 void AGATargetActorGroundSelect::StartTargeting(UGameplayAbility* Ability)
 {
 	OwningAbility = Ability;
@@ -69,7 +76,9 @@ void AGATargetActorGroundSelect::Tick(float DeltaSeconds)
 
 	FVector LookPoint;
 	GetPlayerLookingPoint(LookPoint);
-	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, true, -1.0f, 0, 5.0f);
+	UE_LOG(LogTemp, Warning, TEXT("Look Point %s"), *(LookPoint.ToString()));
+
+	DrawDebugSphere(GetWorld(), LookPoint, Radius, 32, FColor::Red, false, -1.0f, 0, 5.0f);
 }
 
 bool AGATargetActorGroundSelect::GetPlayerLookingPoint(FVector& OutViewPoint)
