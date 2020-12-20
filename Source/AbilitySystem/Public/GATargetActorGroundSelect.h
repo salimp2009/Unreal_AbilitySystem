@@ -6,9 +6,9 @@
 #include "Abilities/GameplayAbilityTargetActor.h"
 #include "GATargetActorGroundSelect.generated.h"
 
+class UDecalComponent;
+class USceneComponent;
 
-/**
- */
 UCLASS()
 class ABILITYSYSTEM_API AGATargetActorGroundSelect : public AGameplayAbilityTargetActor
 {
@@ -29,13 +29,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GroundSelect")
 	bool GetPlayerLookingPoint(FVector& OutViewPoint);
 
-	//UPROPERTY(BlueprintReadOnly, Category = "GroundSelect")
-	//APlayerController* MasterPC;
-
-	//UPROPERTY()
-	//class UGameplayAbility* OwningAbility;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ExposeOnSpawn=true), Category="GroundSelect")
 	float Radius;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "GroundBlast")
+	UDecalComponent* Decal;
+
+	USceneComponent* RootComp;
 };
