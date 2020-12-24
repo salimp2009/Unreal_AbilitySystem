@@ -58,8 +58,8 @@ public:
 	UFUNCTION()
 	void OnStrengthChanged(float Strength, float MaxStrength);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnHealthChanged"))
-	void BP_OnStrengthChanged(float Strength, float MaxHealth);
+	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "OnStrengthChanged"))
+	void BP_OnStrengthChanged(float Strength, float MaxStrength);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "CharacterBase", meta = (DisplayName = "Die"))
 	void BP_Die();
