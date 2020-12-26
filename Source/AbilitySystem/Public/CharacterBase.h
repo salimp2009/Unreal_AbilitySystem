@@ -81,6 +81,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 	void HitStun(float StunDuration);
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+	void ApplyGESpecHandleToTargetDataSpecsHandle(const FGameplayEffectSpecHandle& GESpecHandle, const FGameplayAbilityTargetDataHandle& TargetDataHandle);
+
 protected:
 	bool bIsDead;
 	uint8 TeamID;
