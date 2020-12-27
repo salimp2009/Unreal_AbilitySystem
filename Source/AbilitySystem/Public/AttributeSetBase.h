@@ -24,16 +24,23 @@ public:
 	FGameplayAttributeData MaxHealth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
-		FGameplayAttributeData Mana;
+	FGameplayAttributeData Mana;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
-		FGameplayAttributeData MaxMana;
+	FGameplayAttributeData MaxMana;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
-		FGameplayAttributeData Strength;
+	FGameplayAttributeData Strength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
-		FGameplayAttributeData MaxStrength;
+	FGameplayAttributeData MaxStrength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
+	FGameplayAttributeData AttackDamage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AttributeSetBase")
+	FGameplayAttributeData Armor;
+
 
 
 
