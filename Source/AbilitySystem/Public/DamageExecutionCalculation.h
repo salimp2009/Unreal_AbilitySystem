@@ -19,7 +19,7 @@ public:
 
 	UDamageExecutionCalculation();
 
-	UProperty* HealthProperty;
+	FProperty* HealthProperty;
 	FGameplayEffectAttributeCaptureDefinition HealthDef;
 
 	//UFUNCTION(BlueprintNativeEvent, Category = "Calculation")

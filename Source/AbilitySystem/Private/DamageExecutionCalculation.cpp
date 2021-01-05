@@ -25,7 +25,7 @@ static DamageStatics& GetDamageStatics()
 
 UDamageExecutionCalculation::UDamageExecutionCalculation()
 {
-	HealthProperty = FindFieldChecked<UProperty>(UAttributeSetBase::StaticClass(), GET_MEMBER_NAME_CHECKED(UAttributeSetBase, Health));
+	HealthProperty = FindFieldChecked<FProperty>(UAttributeSetBase::StaticClass(), GET_MEMBER_NAME_CHECKED(UAttributeSetBase, Health));
 	HealthDef = FGameplayEffectAttributeCaptureDefinition(HealthProperty, EGameplayEffectAttributeCaptureSource::Target, true);
 
 	RelevantAttributesToCapture.Add(HealthDef);
